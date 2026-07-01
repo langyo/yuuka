@@ -11,7 +11,7 @@ This is a helper library to generate complex and nested structures by a simple m
 
 The name `yuuka` comes from the character [Yuuka](https://bluearchive.wiki/wiki/Yuuka) in the game [Blue Archive](https://bluearchive.jp/).
 
-For more information, visit the official documentation at [yuuka.celestia.world](https://yuuka.celestia.world)
+For more information, visit the official documentation at [yuuka.docs.celestia.world](https://yuuka.docs.celestia.world)
 
 > Still in development, the API may change in the future.
 
@@ -59,7 +59,7 @@ let config = auto!(GameDevelopment {
 });
 ```
 
-More information can be found in the official documentation at [yuuka.celestia.world](https://yuuka.celestia.world).
+More information can be found in the official documentation at [yuuka.docs.celestia.world](https://yuuka.docs.celestia.world).
 
 ## License
 
