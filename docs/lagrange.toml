@@ -1,0 +1,7 @@
+[site]
+title = "Yuuka"
+description = "A helper library to generate complex and nested structures by a simple macro"
+
+[languages]
+default = "en"
+order = ["en", "zhs", "zht", "ja", "ko", "fr", "es", "ru", "ar"]
