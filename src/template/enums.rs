@@ -58,7 +58,7 @@ pub(crate) fn generate_enums_quote(enums: EnumsFlatten) -> Vec<TokenStream> {
                     }
                 })
                 .collect::<Vec<_>>();
-            let default_value = if let DefaultValue::Single(default_value) = default_value {
+            let default_value_token = if let DefaultValue::Single(default_value) = default_value {
                 quote! {
                     impl Default for #k {
                         fn default() -> Self {
@@ -67,16 +67,7 @@ pub(crate) fn generate_enums_quote(enums: EnumsFlatten) -> Vec<TokenStream> {
                     }
                 }
             } else {
-                quote! {
-                    impl Default for #k {
-                        fn default() -> Self {
-                            unimplemented!(
-                                "enum `{}` has no default value set; add `= VariantName` after the enum definition",
-                                stringify!(#k),
-                            )
-                        }
-                    }
-                }
+                quote! {}
             };
 
             let derive_macros = extra_macros.derive_macros.clone();
@@ -113,7 +104,7 @@ pub(crate) fn generate_enums_quote(enums: EnumsFlatten) -> Vec<TokenStream> {
                     #( #keys )*
                 }
 
-                #default_value
+                #default_value_token
             }
         })
         .collect::<Vec<_>>()

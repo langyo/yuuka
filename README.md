@@ -63,4 +63,4 @@ More information can be found in the official documentation at [yuuka.docs.celes
 
 ## License
 
-Licensed under the [Synthetic Source License (SySL), Version 1.0](./LICENSE.txt).
+Licensed under the [Synthetic Source License (SySL), Version 1.0](./LICENSE).
