@@ -26,16 +26,27 @@ pub fn derive_struct(input: TokenStream) -> TokenStream {
     let root_ident = match input.ident.clone() {
         StructName::Named(v) => v,
         StructName::Unnamed(_) => {
-            panic!("Unnamed root struct is not supported");
+            return syn::Error::new(
+                proc_macro2::Span::call_site(),
+                "unnamed root struct is not supported; provide a name for the struct",
+            )
+            .to_compile_error()
+            .into();
         }
     };
     let mod_ident = syn::Ident::new(&format!("__{}", root_ident), root_ident.span());
-    let (structs, enums) = flatten(
+    let (structs, enums) = match flatten(
         root_ident.to_string(),
         Rc::new(RefCell::new(0)),
         DeriveBox::Struct(Box::new(input.clone())),
-    )
-    .expect("Failed to flatten");
+    ) {
+        Ok(v) => v,
+        Err(e) => {
+            return syn::Error::new(root_ident.span(), e.to_string())
+                .to_compile_error()
+                .into();
+        }
+    };
 
     let structs_auto_macros = generate_structs_auto_macros(structs.clone(), macro_visibility);
     let enums_auto_macros = generate_enums_auto_macros(enums.clone(), macro_visibility);
@@ -89,16 +100,27 @@ pub fn derive_enum(input: TokenStream) -> TokenStream {
     let root_ident = match input.ident.clone() {
         StructName::Named(v) => v,
         StructName::Unnamed(_) => {
-            panic!("Unnamed root struct is not supported");
+            return syn::Error::new(
+                proc_macro2::Span::call_site(),
+                "unnamed root enum is not supported; provide a name for the enum",
+            )
+            .to_compile_error()
+            .into();
         }
     };
     let mod_ident = syn::Ident::new(&format!("__{}", root_ident), root_ident.span());
-    let (structs, enums) = flatten(
+    let (structs, enums) = match flatten(
         root_ident.to_string(),
         Rc::new(RefCell::new(0)),
         DeriveBox::Enum(Box::new(input.clone())),
-    )
-    .expect("Failed to flatten");
+    ) {
+        Ok(v) => v,
+        Err(e) => {
+            return syn::Error::new(root_ident.span(), e.to_string())
+                .to_compile_error()
+                .into();
+        }
+    };
 
     let structs_auto_macros = generate_structs_auto_macros(structs.clone(), macro_visibility);
     let enums_auto_macros = generate_enums_auto_macros(enums.clone(), macro_visibility);
@@ -218,8 +240,7 @@ pub fn auto(input: TokenStream) -> TokenStream {
             }
         }
         AutoMacrosType::EnumTuple { key, items } => {
-            if items.len() == 1 {
-                let first_item = items.first().expect("Failed to get first item");
+            if let [first_item] = items.as_slice() {
                 quote! {
                     #ident::#key(#macro_ident!(#key #first_item))
                 }
@@ -247,8 +268,7 @@ pub fn auto(input: TokenStream) -> TokenStream {
         .into(),
 
         AutoMacrosType::Value { items } => {
-            if items.len() == 1 {
-                let first_item = items.first().expect("Failed to get first item");
+            if let [first_item] = items.as_slice() {
                 quote! {
                     #first_item
                 }

@@ -70,7 +70,10 @@ pub(crate) fn generate_enums_quote(enums: EnumsFlatten) -> Vec<TokenStream> {
                 quote! {
                     impl Default for #k {
                         fn default() -> Self {
-                            unimplemented!("Default value for enum is not implemented");
+                            unimplemented!(
+                                "enum `{}` has no default value set; add `= VariantName` after the enum definition",
+                                stringify!(#k),
+                            )
                         }
                     }
                 }
