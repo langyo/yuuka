@@ -2,7 +2,9 @@
 
 <h1 align="center">Yuuka</h1>
 
-[![License: SySL](https://img.shields.io/badge/license-SySL%201.0-blue)](./LICENSE.txt)[![Crates.io Version](https://img.shields.io/crates/v/yuuka)](https://docs.rs/yuuka)
+<p align="center"><strong>Nested structure derivation macro</strong></p>
+
+[![License: SySL](https://img.shields.io/badge/license-SySL%201.0-blue)](./LICENSE)[![Crates.io Version](https://img.shields.io/crates/v/yuuka)](https://docs.rs/yuuka)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/celestia-island/yuuka/test.yml)
 
 ## Introduction
